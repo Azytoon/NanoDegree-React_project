@@ -14,7 +14,7 @@ export default class Book extends Component {
         if (book_authors === "undefined") book_authors = "undefined author";
         //to set default of shelf_type to none
         //let book_shelf = book.shelf;
-        console.log(book.shelf);
+        //console.log(book.shelf);
         return (
             <div>
                 {/*<h1>ano book.jsx</h1>*/}

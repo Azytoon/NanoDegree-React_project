@@ -3,9 +3,9 @@ import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import * as BooksAPI from './BooksAPI'
 //import axios from "axios";
 import './App.css'
-import SearchPage from './Components/SearchPage';
-import HomePage from './Components/HomePage';
-import NotFound from './Components/NotFound';
+import SearchPage from './Components/SearchPage.js';
+import HomePage from './Components/HomePage.js';
+import NotFound from './Components/NotFound.js';
 
 
 class BooksApp extends React.Component {
@@ -35,11 +35,11 @@ class BooksApp extends React.Component {
       if (this.state.search_books.length > 0) search_bks = [...this.state.search_books];
       for (let i = 0; i < search_bks.length; i++) {
         for (let j = 0; j < state_books.length; j++) {
-          console.log("search_bks[i].title--> "+search_bks[i].title);
-          console.log("state_books[j].title--> "+state_books[j].title);
-          if(search_bks[i].title === state_books[j].title){
+          //console.log("search_bks[i].title--> "+search_bks[i].title);
+          //console.log("state_books[j].title--> "+state_books[j].title);
+          if(search_bks[i].title === state_books[j].title && search_bks[i].subtitle === state_books[j].subtitle && search_bks[i].pageCount === state_books[j].pageCount){
             search_bks[i].shelf = state_books[j].shelf;
-            console.log("goooowaaaaaaaaa");
+            //console.log("goooowaaaaaaaaa");
             break;
           }
           else {search_bks[i].shelf = "none"}
@@ -59,27 +59,23 @@ class BooksApp extends React.Component {
     else {
       this.setState({ search_books : [] });
     }  
-    console.log(query);
-    console.log(this.state.search_books); 
+    //console.log(query);
+    //console.log(this.state.search_books); 
   }
-  /*onclickHandler = (product) => {
-    //Clone
-    const products = [...this.state.products];
-    const index = products.indexOf(product);
-    products[index] = { ...products[index] };
-    //Edit
-    products[index].isInCart = !products[index].isInCart;
-    //Set State
-    this.setState({ products });
-  };*/
-  handlerefresh = () => {
+
+  home_handlerefresh = () => {
     BooksAPI.getAll()
     .then((books) => {
       this.setState(() => ({
         books
       }))
-    })
-    console.log("ana refresh");
+    });
+    this.checkEquality();
+    //console.log("ana home refresh");
+  }
+  search_handlerefresh = () => {
+    this.setState({ search_books : [] });
+    //console.log("ana serach refresh");
   }
   handleChange = (book,shelf) => {    
     BooksAPI.update(book,shelf);
@@ -87,17 +83,17 @@ class BooksApp extends React.Component {
     //Clone
     let books = [...this.state.books];
     let index = this.state.books.indexOf(book);
-    console.log('index = ',index);
+    //console.log('index = ',index);
     //console.log(this.state.books.length);
     if (index === -1) {
       /*this.setState(prevState => ({
         books: [...prevState.books, book]
       }))*/
-      console.log('gowa');
+      //console.log('gowa');
       books = [...this.state.books , book ];
       this.setState({ books });
-      //this.handlerefresh();
-      console.log(this.state.books);
+      this.home_handlerefresh();
+      //console.log(this.state.books);
     }
     else {
     books[index] = { ...books[index] };
@@ -114,7 +110,7 @@ class BooksApp extends React.Component {
     */
   };
   render() {
-    console.log('ana hamo');
+    //console.log('ana hamo');
     //console.log(this.state.books);
     //console.log('ahamo');
     return (
@@ -129,12 +125,7 @@ class BooksApp extends React.Component {
                   <HomePage
                     books = {this.state.books}
                     changeshelf = {this.handleChange}
-                    refresh = {this.handlerefresh}
-                    /*products={this.state.products.filter((p) => p.isInCart)}//{this.state.products}
-                    onIncrement={this.IncrementHandler}
-                    onDelete={this.onclickHandler}
-                    onReset={this.handleReset}
-                    {...props}*/
+                    refresh = {this.search_handlerefresh}
                   />
               )}
             />
@@ -143,16 +134,10 @@ class BooksApp extends React.Component {
                 exact
                 render={() => (
                   <SearchPage
-                   // books = {this.state.search_books}
                     books = {this.checkEquality()}
                     changeshelf = {this.handleChange}
                     handlesearch = {this.handlesearch}
-                    refresh = {this.handlerefresh}
-                    /*products={this.state.products.filter((p) => p.isInCart)}//{this.state.products}
-                    onIncrement={this.IncrementHandler}
-                    onDelete={this.onclickHandler}
-                    onReset={this.handleReset}
-                    {...props}*/
+                    refresh = {this.home_handlerefresh}
                   />
               )}
             />

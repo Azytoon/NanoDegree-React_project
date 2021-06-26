@@ -1,8 +1,6 @@
 # MyReads Project
 
-This is the starter template for the final assessment project for Udacity's React Fundamentals course. The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
-
-Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
+This is  the final assessment project for Udacity's React Fundamentals course.
 
 ## TL;DR
 
@@ -18,7 +16,7 @@ To get started developing right away:
 ├── SEARCH_TERMS.md # The whitelisted short collection of available search terms for you to use with your app.
 ├── package.json # npm package manager file. It's unlikely that you'll need to modify this.
 ├── public
-│   ├── favicon.ico # React Icon, You may change if you wish.
+│   ├── favicon.ico # React Icon, You may add what you wish.
 │   └── index.html # DO NOT MODIFY
 └── src
     ├── App.css # Styles for your app. Feel free to customize this as you desire.
@@ -31,9 +29,47 @@ To get started developing right away:
     │   └── arrow-drop-down.svg
     ├── index.css # Global styles. You probably won't need to change anything here.
     └── index.js # You should not need to modify this file. It is used for DOM rendering only.
+    |
+    └── Components
+        ├── HomePage.js #component of Main page that show 3 shelves ["currentlyReading" , "wantToRead", "read"]
+        ├── SearchPage.js #component of Search page that show text input and result below
+        ├── NotFound.js #component of wrong routing
+        ├── shelf.js #component of shelf that contain books
+        └── book.js #component of book
 ```
+## Features
 
-Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
+`#Main Page`
+
+The main page shows 3 shelves for books. Each book is shown on the correct shelf, along with its title and all of its authors.
+
+The main page shows a control that allows users to move books between shelves. The control is tied to each book instance.
+
+When the browser is refreshed, the same information is displayed on the page.
+
+`#Search Page`
+
+1) The search page has a search input field.
+
+2) The search page behaves:
+a) As the user types into the search field, books that match the query are displayed on the page, along with their titles and authors.
+b) Search results are not shown when all of the text is deleted out of the search input box.
+c) Invalid queries are handled and prior search results are not shown.
+e) The user is able to search for multiple words, such as “artificial intelligence.”
+
+
+Search results on the search page allow the user to select “currently reading”, “want to read”, or “read” to place the book in a certain shelf.
+
+If a book is assigned to a shelf on the main page and that book appears on the search page, the correct shelf should be selected on the search page. If that book's shelf is changed on the search page, that change should be reflected on the main page as well. The option "None" should be selected if a book has not been assigned to a shelf.
+
+When an item is categorized on the search page and the user navigates to the main page, it appears on that shelf in the main page.
+
+
+`#Routing`
+
+The main page contains a link to the search page. When the link is clicked, the search page is displayed and the URL in the browser’s address bar is /search.
+
+The search page contains a link to the main page. When the link is clicked, the main page is displayed and the URL in the browser’s address bar is /.
 
 ## Backend Server
 
@@ -85,8 +121,4 @@ The backend API uses a fixed set of cached search results and is limited to a pa
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
-## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
